@@ -8,7 +8,7 @@ const cliBinPath = path.join(__dirname, '../../bin/run')
 const spawn = require('child_process').spawn
 
 describe.only('E2E - start command', () => {
-  it('Should fail on a non blitz project', async () => {
+  it('Should fail outside a blitz project', async () => {
     expect.assertions(1)
     try {
       const command = await spawnAsync('node', [cliBinPath, 'start'])
@@ -17,15 +17,20 @@ describe.only('E2E - start command', () => {
     }
   })
 
-  it('Should succeed on a blitz project', async (done) => {
+  it('Should succeed on a blitz project', (done) => {
+    expect.assertions(1)
     const promise = new Promise((resolve, reject) => {
       const startProcess = spawn('node', [cliBinPath, 'start'], {
         cwd: path.join(__dirname, 'blitz-project'),
       })
-      startProcess.stdout.on('data', (data) => {
-        console.log(data.toString(), 'HERE IS DATA')
-        expect(data.toString()).toContain('started server')
-        done()
+      startProcess.stdout.once('data', (data) => {
+        // Need to wrap this in a try/catch because expect could throw error
+        try {
+          expect(data.toString()).toContain('started server')
+          done()
+        } catch (e) {
+          done.fail()
+        }
       })
     })
     return promise

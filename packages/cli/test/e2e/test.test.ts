@@ -6,7 +6,16 @@ const spawnAsync = promisify(childProcess.execFile)
 const cliBinPath = path.join(__dirname, '../../bin/run')
 
 describe.only('E2E - test command', () => {
-  it('should log when no tests are defined', async () => {
+  it('Should fail outside a blitz project', async () => {
+    expect.assertions(1)
+    try {
+      const command = await spawnAsync('node', [cliBinPath, 'start'])
+    } catch (e) {
+      expect(e.stderr).toContain('Error: You are not inside a Blitz project')
+    }
+  })
+
+  it('Should log when no tests are defined', async () => {
     const {stdout, stderr} = await spawnAsync('node', [cliBinPath, 'test'], {
       cwd: path.join(__dirname, 'blitz-project'),
     })
