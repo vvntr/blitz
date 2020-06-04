@@ -1,5 +1,6 @@
 export * from './use-query'
 export * from './use-paginated-query'
+export * from './use-infinite-query'
 export * from './ssr-query'
 export * from './rpc'
 
@@ -11,6 +12,8 @@ export {
   NextApiRequest as BlitzApiRequest,
   NextApiResponse as BlitzApiResponse,
 } from 'next'
+
+export {AppProps} from 'next/app'
 
 export {default as Head} from 'next/head'
 
@@ -25,6 +28,7 @@ export {
   Main,
   NextScript,
   DocumentContext,
+  DocumentInitialProps,
 } from 'next/document'
 
 export {default as dynamic} from 'next/dynamic'
