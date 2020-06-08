@@ -3,7 +3,7 @@ import {Plus} from 'heroicons-react'
 import {Dispatch, FC, SetStateAction} from 'react'
 
 type NavProps = {
-  setIsModalOpen: Dispatch<SetStateAction<boolean>>,
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>
   openImport: () => void
 }
 
@@ -59,9 +59,9 @@ export const Nav: FC<NavProps> = ({setIsModalOpen, openImport}) => {
               </button>
             </span>
             <button
-                onClick={openImport}
-                type="button"
-                className="ml-5 -mr-20 text-gray-500 font-medium hover:underline">
+              onClick={openImport}
+              type="button"
+              className="ml-5 text-sm font-medium text-gray-500 hover:underline">
               or Import
             </button>
           </div>
