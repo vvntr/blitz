@@ -56,8 +56,8 @@ export class Field {
 
   // 'name:type?[]:attribute' => Field
   static parse(input: string): Field[] {
-    const [_fieldName, _fieldType = "String", attribute] = input.split(":")
-    let fieldName = singleCamel(_fieldName)
+    const [_fieldName, _fieldType = FieldType.String, attribute] = input.split(":")
+    let fieldName = _fieldName
     let fieldType = singlePascal(_fieldType)
     let isRequired = true
     let isList = false
@@ -73,14 +73,11 @@ export class Field {
     }
     if (fieldType.includes("[]")) {
       fieldType = fieldType.replace("[]", "")
-      fieldName = pluralCamel(fieldName)
       isList = true
     }
-    // use original unmodified field name in case the list handling code
-    // has modified fieldName
-    if (isRelation(_fieldName)) {
+    if (isRelation(fieldName)) {
       // this field is an object type, not a scalar type
-      const relationType = Relation[_fieldName]
+      const relationType = Relation[fieldName]
       // translate the type into the name since they should stay in sync
       fieldName = singleCamel(fieldType)
       fieldType = singlePascal(fieldType)
@@ -89,6 +86,7 @@ export class Field {
         case Relation.hasOne:
           // current model gets single `modelName ModelName` association field
           isList = false
+          fieldName = singleCamel(fieldName)
           break
         case Relation.hasMany:
           // current model gets single `modelNames ModelName[]` association field
@@ -109,7 +107,7 @@ export class Field {
       }
     }
     if (!/^[A-Za-z]*$/.test(fieldName)) {
-      // modelName should be just alpha characters at this point, validate
+      // modelName should be just alpha characters at this point
       throw new Error(
         `[Field.parse]: received unknown special character in field name: ${fieldName}`,
       )
