@@ -27,8 +27,11 @@ enum ResourceType {
   Crud = "crud",
   Model = "model",
   Mutations = "mutations",
+  Mutation = "mutation",
   Pages = "pages",
+  Page = "page",
   Queries = "queries",
+  Query = "query",
   Resource = "resource",
 }
 
@@ -75,8 +78,11 @@ const generatorMap = {
   [ResourceType.Crud]: [MutationGenerator, QueryGenerator],
   [ResourceType.Model]: [ModelGenerator],
   [ResourceType.Mutations]: [MutationGenerator],
+  [ResourceType.Mutation]: [MutationGenerator],
   [ResourceType.Pages]: [PageGenerator, FormGenerator],
+  [ResourceType.Page]: [PageGenerator, FormGenerator],
   [ResourceType.Queries]: [QueryGenerator],
+  [ResourceType.Query]: [QueryGenerator],
   [ResourceType.Resource]: [ModelGenerator, QueryGenerator, MutationGenerator],
 }
 
